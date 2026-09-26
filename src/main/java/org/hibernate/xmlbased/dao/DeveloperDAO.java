@@ -13,8 +13,12 @@ public class DeveloperDAO {
     private final SessionFactory sessionFactory;
     private Session session;
 
-    public DeveloperDAO() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
+//    public DeveloperDAO() {
+//        sessionFactory = new Configuration().configure().buildSessionFactory();
+//    }
+    public DeveloperDAO(){
+        sessionFactory = new Configuration().addAnnotatedClass(Developer.class).
+                configure().buildSessionFactory();
     }
 
     public void AddDevelopers(Developer developer){

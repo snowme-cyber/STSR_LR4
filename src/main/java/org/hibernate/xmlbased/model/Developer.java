@@ -1,9 +1,23 @@
 package org.hibernate.xmlbased.model;
 
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "developers")
 public class Developer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "specialty")
     private String specialty;
+
+    @Column(name = "experience")
     private int experience;
     public Developer() {
     }
