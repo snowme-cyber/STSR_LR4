@@ -1,44 +1,46 @@
 package org.hibernate.xmlbased;
 
+import java.util.Arrays;
+import java.util.List;
 
 import org.hibernate.xmlbased.dao.DeveloperDAO;
 import org.hibernate.xmlbased.model.Developer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class MainClass {
-    static void main() {
-        List<Developer> developers = new ArrayList<>(Arrays.asList(
+
+    public static void main(String[] args) {
+        List<Developer> developers = Arrays.asList(
                 new Developer("Igor", "Java Developer", 2),
                 new Developer("Alexander", "C++ Developer", 4),
                 new Developer("Ivan", "DevOps", 3)
-        ));
+        );
 
         DeveloperDAO developerDAO = new DeveloperDAO();
 
-        for (Developer dev : developers){
+        // 1. Пытаемся добавить, ловим ошибки дубликатов
+        for (Developer dev : developers) {
             try {
-                developerDAO.AddDevelopers(dev);
+                developerDAO.addDeveloper(dev);
                 System.out.println("Успешно добавлен: " + dev.getName());
-            }
-            catch(Exception e){
-                System.out.println("Пропуск: " + dev.getName() +
-                        " уже есть в базе данных.");
+            } catch (Exception e) {
+                System.out.println("Запись уже существует в БД, пропуск: " + dev.getName());
             }
         }
 
+        // 2. Вывод всех
+        System.out.println("Все разработчики в БД:");
+        developerDAO.getDevelopers().forEach(System.out::println);
 
-        developerDAO.getDevelopers().stream().forEach(System.out::println);
+        // 3. Получение по ID (если удален - вернет null, это нормально)
+        System.out.println("Разработчик с ID 2: " + developerDAO.getDeveloperById(2));
 
-        System.out.println(developerDAO.getDeveloperById(2));
-
+        // 4. Обновление (внутри уже есть защита от несуществующих данных)
         developerDAO.updateDeveloper(1, 5);
 
+        // 5. Удаление (внутри уже есть защита от несуществующих данных)
         developerDAO.removeDeveloper(2);
 
-        developerDAO.getDevelopers().stream().forEach(System.out::println);
-
+        System.out.println("Итоговый список:");
+        developerDAO.getDevelopers().forEach(System.out::println);
     }
 }

@@ -3,12 +3,13 @@
         "-//Hibernate/Hibernate Mapping DTD//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="org.hibernate.xmlbased.model.Developer" table="your_table_name">
+    <class name="org.hibernate.xmlbased.model.Developer" table="developers">
         <id name="id" type="int" column="ID">
             <generator class="native"/>
         </id>
-        <property name="name" column="name" type="string" unique-key="unique_dev"/>
-        <property name="specialty" column="specialty" type="string" unique-key="unique_dev"/>
-        <property name="experience" column="experience" type="int" />
+        <property name="name" column="name" unique="true" />
+        <!--   решение задания -->
+        <property name="specialty" column="SPECIALTY" type="string"/>
+        <property name="experience" column="EXPERIENCE" type="int" />
     </class>
 </hibernate-mapping>
